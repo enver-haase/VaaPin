@@ -32,5 +32,22 @@
 @mixin vaapin {
   @include valo;
 
-  // Insert your own theme rules here
+    // Insert your own theme rules here
+    .warning {
+        color: #f01010;
+        font-weight: bold;
+    }
+
+    .v-label-header1 {
+        font-size: 3em;
+    }
+
+    .v-label-header2 {
+        font-size: 2em;
+    }
+
+    .content {
+        font-family: "Courier New", Courier, monospace;
+        font-weight: bold;
+    }
 }
