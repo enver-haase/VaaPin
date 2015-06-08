@@ -1,0 +1,16 @@
+
+Notes for project VaaPin
+------------------------
+
+EPHEMERAL TCP/IP PORTS:
+Pinball 2000 machines hava a problem when communicating
+with TCP boards with a high number.
+Therefore, the machines communicating with them need to
+use a ephemeral port range of up to TODO only.
+Under Linux, this is achieved using
+ echo "49152 65535" > /proc/sys/net/ipv4/ip_local_port_range 
+Note that you need to do this each time the system boots,
+so be sure to add a line to a system startup script such
+as /etc/rc.local so your range is always used.
+Other machines must communicate through a gateway which
+enforces this workaround.
