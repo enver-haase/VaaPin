@@ -5,8 +5,10 @@ import javax.servlet.annotation.WebServlet;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.ClientConnector.DetachListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -38,9 +40,19 @@ public class VaapinUI extends UI implements DetachListener{
 		PinConsole pinCon = new PinConsole(this.telnetConn);
 		pinCon.setSizeFull();
 
-		layout.addComponent(pinCon);	
-		this.setContent(layout);
+		GameScreen gameScreen = new GameScreen();
+		gameScreen.setSizeFull();
 		
+		TabSheet tabsheet = new TabSheet();
+		
+		tabsheet.addTab(pinCon, "Pinball 2000 Console", FontAwesome.KEYBOARD_O);
+		tabsheet.addTab(gameScreen, "Game Screen", FontAwesome.GAMEPAD);
+		
+		tabsheet.setSizeFull();
+		
+		layout.addComponent(tabsheet);	
+		this.setContent(layout);
+
 		pinCon.focus();
 	}
 

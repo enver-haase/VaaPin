@@ -10,4 +10,7 @@ public interface Configuration {
 
     public final static String LOGIN_NAME = "Pin2000";
     public final static String LOGIN_PASS = "Manager";
+    
+    
+    public final static String CAMERA_URL = "http://tenvis:7777/videostream.cgi?user=admin&pwd=admin";
 }
