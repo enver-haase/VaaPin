@@ -5,73 +5,79 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
 
+import com.example.vaapin.util.Logger;
+
 public class TelnetConnection {
 
 	private Socket sock;
-	
+
 	public TelnetConnection(){
-		
+		login();
 	}
-	
-    String getResponse(String command) {
-        try {
-            if (sock != null) {
-                writeStringToSocket(command + "\n", this.sock);
 
-                return readStringFromSocket(this.sock);
-            }
-        } catch (IOException e) {
-            System.err.println(e); // TODO
-        }
-        return "<Communication error>";
-    }
+	String getResponse(String command) {
+		try {
+			if (sock != null) {
+				writeStringToSocket(command + "\n", this.sock);
 
-    private static void writeStringToSocket(String command, Socket sock) throws IOException {
-        sock.getOutputStream().write(command.getBytes(Charset.defaultCharset()));
-    }
+				return readStringFromSocket(this.sock);
+			}
+		} catch (IOException e) {
+			Logger.logException(e);
+		}
+		return "<Communication error>";
+	}
 
-    private static String readStringFromSocket(Socket sock) throws IOException {
-        byte[] resultBuff = new byte[0];
-        byte[] buff = new byte[1024];
-        int k = -1;
-        try {
-            while ((k = sock.getInputStream().read(buff, 0, buff.length)) > 0) {
-                // System.out.println("Read " + k + " bytes...");
-                byte[] tbuff = new byte[resultBuff.length + k]; // temp buffer size = bytes already read + bytes last read
-                System.arraycopy(resultBuff, 0, tbuff, 0, resultBuff.length); // copy previous bytes
-                System.arraycopy(buff, 0, tbuff, resultBuff.length, k); // copy current lot
-                resultBuff = tbuff; // call the temp buffer as your result buff
-            }
-        } catch (SocketTimeoutException timeoutEx) {
-            // normal behaviour to land here, when response to command is sent and TCP line is kept open.
-        }
-        //System.out.println(resultBuff.length + " bytes read.");
-        return new String(resultBuff, Charset.defaultCharset());
-    }
+	private static void writeStringToSocket(String command, Socket sock) throws IOException {
+		sock.getOutputStream().write(command.getBytes(Charset.defaultCharset()));
+	}
 
-    String login() {
-        try {
-            this.sock = new Socket(Configuration.MACHINE_NAME, Configuration.TELNET_PORT);
-            this.sock.setSoTimeout(30); // 30 ms timeout for reading from socket
-            // System.out.println(readStringFromSocket(this.sock));
-            writeStringToSocket(Configuration.LOGIN_NAME + "\n", sock);
-            // System.out.println(readStringFromSocket(this.sock));
-            writeStringToSocket(Configuration.LOGIN_PASS + "\n", sock);
-            return (readStringFromSocket(this.sock));
-        } catch (IOException e) {
-            System.err.println(e); // TODO
-            return "<login error>";
-        }
-    }
-    
-    public void close(){
-    	if (sock != null){
+	private static String readStringFromSocket(Socket sock) throws IOException {
+		byte[] resultBuff = new byte[0];
+		byte[] buff = new byte[1024];
+		int k = -1;
+		try {
+			while ((k = sock.getInputStream().read(buff, 0, buff.length)) > 0) {
+				// System.out.println("Read " + k + " bytes...");
+				byte[] tbuff = new byte[resultBuff.length + k]; // temp buffer size = bytes already read + bytes last read
+				System.arraycopy(resultBuff, 0, tbuff, 0, resultBuff.length); // copy previous bytes
+				System.arraycopy(buff, 0, tbuff, resultBuff.length, k); // copy current lot
+				resultBuff = tbuff; // call the temp buffer as your result buff
+			}
+		} catch (SocketTimeoutException timeoutEx) {
+			Logger.logException(timeoutEx);
+		}
+		//System.out.println(resultBuff.length + " bytes read.");
+		return new String(resultBuff, Charset.defaultCharset());
+	}
+
+	private void login() {
+		try{
+			if (this.sock != null){
+				sock.close();
+			}
+
+			this.sock = new Socket(Configuration.MACHINE_NAME, Configuration.TELNET_PORT);
+			this.sock.setSoTimeout(30); // 30 ms timeout for reading from socket
+
+			writeStringToSocket(Configuration.LOGIN_NAME + "\n", sock);
+			writeStringToSocket(Configuration.LOGIN_PASS + "\n", sock);
+
+			Logger.logDebug(readStringFromSocket(this.sock));
+		}
+		catch (IOException ioe){
+			Logger.logException(ioe);
+		}
+	}
+
+	public void close(){
+		if (sock != null){
 			try {
 				sock.close();
 			} catch (IOException e) {
-				//e.printStackTrace();
+				Logger.logException(e);
 			}
 		}
-    }
-	
+	}
+
 }
