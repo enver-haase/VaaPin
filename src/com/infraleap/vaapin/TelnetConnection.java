@@ -1,11 +1,12 @@
-package com.example.vaapin;
+package com.infraleap.vaapin;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
 
-import com.example.vaapin.util.Logger;
+import com.infraleap.vaapin.config.Configuration;
+import com.infraleap.vaapin.util.Logger;
 
 public class TelnetConnection {
 
@@ -15,7 +16,7 @@ public class TelnetConnection {
 		login();
 	}
 
-	String getResponse(String command) {
+	public String getResponse(String command) {
 		try {
 			if (sock != null) {
 				writeStringToSocket(command + "\n", this.sock);

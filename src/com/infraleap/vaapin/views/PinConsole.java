@@ -1,6 +1,8 @@
-package com.example.vaapin;
+package com.infraleap.vaapin.views;
 
-import com.example.vaapin.util.OnEnterKeyHandler;
+import com.infraleap.vaapin.TelnetConnection;
+import com.infraleap.vaapin.config.Configuration;
+import com.infraleap.vaapin.util.OnEnterKeyHandler;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.BrowserFrame;
@@ -19,7 +21,7 @@ public class PinConsole extends VerticalLayout {
 	
 	private final TextField userInputField = new TextField("");
 	
-	PinConsole(final TelnetConnection telnetConn){
+	public PinConsole(final TelnetConnection telnetConn){
 		
 		Label l1 = new Label("VaaPin: Reindeer Goes Pinball.");
 		l1.addStyleName("header1");
@@ -71,7 +73,7 @@ public class PinConsole extends VerticalLayout {
 	}
 	
 	@Override
-	protected void focus() {
+	public void focus() {
 		userInputField.focus();
 	}
 	

@@ -1,4 +1,4 @@
-package com.example.vaapin.util;
+package com.infraleap.vaapin.util;
 
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.ShortcutAction;

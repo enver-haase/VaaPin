@@ -1,4 +1,4 @@
-package com.example.vaapin.util;
+package com.infraleap.vaapin.util;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

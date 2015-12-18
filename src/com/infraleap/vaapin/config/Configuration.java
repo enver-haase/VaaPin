@@ -1,4 +1,4 @@
-package com.example.vaapin;
+package com.infraleap.vaapin.config;
 
 public interface Configuration {
 

@@ -1,7 +1,9 @@
-package com.example.vaapin;
+package com.infraleap.vaapin;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.infraleap.vaapin.views.GameScreen;
+import com.infraleap.vaapin.views.PinConsole;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.ClientConnector.DetachListener;

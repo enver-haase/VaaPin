@@ -5,4 +5,4 @@
  * @author ehaase
  *
  */
-package com.example.vaapin.util;
+package com.infraleap.vaapin.util;
