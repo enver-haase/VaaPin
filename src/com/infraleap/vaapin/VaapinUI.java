@@ -2,6 +2,7 @@ package com.infraleap.vaapin;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.infraleap.vaapin.util.Logger;
 import com.infraleap.vaapin.views.GameScreen;
 import com.infraleap.vaapin.views.PinConsole;
 import com.vaadin.annotations.Theme;
@@ -33,13 +34,13 @@ public class VaapinUI extends UI implements DetachListener{
 	@Override
 	protected void init(VaadinRequest request) {
 
-		System.out.println("VaaPin initializing.");
+		Logger.logDebug("VaaPin initializing.");
 		this.telnetConn = new TelnetConnection();
 
 		PinConsole pinCon = new PinConsole(this.telnetConn);
 		pinCon.setSizeFull();
 
-		GameScreen gameScreen = new GameScreen();
+		GameScreen gameScreen = new GameScreen(this.telnetConn);
 		gameScreen.setSizeUndefined();
 		gameScreen.setWidth("100%");
 		

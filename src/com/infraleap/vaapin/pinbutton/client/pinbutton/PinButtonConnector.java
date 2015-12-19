@@ -1,18 +1,16 @@
 package com.infraleap.vaapin.pinbutton.client.pinbutton;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 import com.infraleap.vaapin.pinbutton.PinButton;
-import com.vaadin.client.MouseEventDetailsBuilder;
 import com.vaadin.client.communication.RpcProxy;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractComponentConnector;
-import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.shared.ui.Connect;
 
 @Connect(PinButton.class)
@@ -30,17 +28,6 @@ public class PinButtonConnector extends AbstractComponentConnector {
 			}
 		});
 
-		// TODO ServerRpc usage example, do something useful instead
-		getWidget().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				final MouseEventDetails mouseDetails = MouseEventDetailsBuilder
-					.buildMouseEventDetails(event.getNativeEvent(),
-								getWidget().getElement());
-				rpc.clicked(mouseDetails);
-			}
-		});
-
 		getWidget().addMouseUpHandler(new MouseUpHandler() {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
@@ -48,6 +35,12 @@ public class PinButtonConnector extends AbstractComponentConnector {
 			}
 		});
 		
+		getWidget().addMouseDownHandler(new MouseDownHandler() {
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+				rpc.mouseDown(event.getNativeButton());
+			}
+		});
 	}
 
 	@Override

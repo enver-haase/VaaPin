@@ -13,4 +13,9 @@ public interface Configuration {
     
     
     public final static String CAMERA_URL = "http://tenvis:7777/videostream.cgi?user=admin&pwd=admin";
+    
+    public final static String TELNET_LEFT_FLIPPER_UP = "flip on 0";
+    public final static String TELNET_LEFT_FLIPPER_DOWN = "flip off 0";
+    public final static String TELNET_RIGHT_FLIPPER_UP = "flip on 1";
+    public final static String TELNET_RIGHT_FLIPPER_DOWN = "flip off 1";
 }

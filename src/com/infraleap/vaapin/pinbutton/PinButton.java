@@ -1,31 +1,64 @@
 package com.infraleap.vaapin.pinbutton;
 
-import com.infraleap.vaapin.pinbutton.client.pinbutton.PinButtonClientRpc;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+
 import com.infraleap.vaapin.pinbutton.client.pinbutton.PinButtonServerRpc;
 import com.infraleap.vaapin.pinbutton.client.pinbutton.PinButtonState;
 import com.infraleap.vaapin.util.Logger;
-import com.vaadin.shared.MouseEventDetails;
 
 public class PinButton extends com.vaadin.ui.AbstractComponent {
 
-	private final PinButtonServerRpc rpc = new PinButtonServerRpc() {
-		private int clickCount = 0;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-		@Override
-		public void clicked(MouseEventDetails mouseDetails) {
-			// nag every 5:th click using RPC
-			if (++clickCount % 5 == 0) {
-				getRpcProxy(PinButtonClientRpc.class).alert(
-						"Ok, that's enough!");
-			}
-			// update shared state
-			getState().text = "You have clicked " + clickCount + " times";
-		}
+	public interface FlipperListener{
+		void leftFlipperDown();
+		void leftFlipperUp();
+		void rightFlipperDown();
+		void rightFlipperUp();
+	}
+	
+	private final Collection<FlipperListener> flipperListeners = Collections.synchronizedCollection(new HashSet<FlipperListener>());
+	
+	private final PinButtonServerRpc rpc = new PinButtonServerRpc() {
 		
 		@Override
 		public void mouseUp(int button) {
 			Logger.logDebug("Mouse up. Button '"+button+"'.");
+			
+			if (button == 1){
+				for (FlipperListener l : flipperListeners) {
+					l.leftFlipperDown();
+				}
+			}
+			else{
+				for (FlipperListener l : flipperListeners) {
+					l.rightFlipperDown();
+				}
+			}
 		}
+		
+		@Override
+		public void mouseDown(int button) {
+			Logger.logDebug("Mouse down. Button '"+button+"'");
+			
+			if (button == 1){
+				for (FlipperListener l : flipperListeners) {
+					l.leftFlipperUp();
+				}
+			}
+			else{
+				for (FlipperListener l : flipperListeners) {
+					l.rightFlipperUp();
+				}
+			}
+		}
+		
 	};  
 
 	public PinButton() {
@@ -35,5 +68,13 @@ public class PinButton extends com.vaadin.ui.AbstractComponent {
 	@Override
 	public PinButtonState getState() {
 		return (PinButtonState) super.getState();
+	}
+	
+	public void addFlipperListener(FlipperListener l){
+		flipperListeners.add(l);
+	}
+	
+	public void removeFlipperListener(FlipperListener l){
+		flipperListeners.remove(l);
 	}
 }

@@ -46,7 +46,8 @@ public class TelnetConnection {
 				resultBuff = tbuff; // call the temp buffer as your result buff
 			}
 		} catch (SocketTimeoutException timeoutEx) {
-			Logger.logException(timeoutEx);
+			//Pretty 'normal' condition. TODO: refactor the control flow. This is stupid.
+			//Logger.logException(timeoutEx);
 		}
 		//System.out.println(resultBuff.length + " bytes read.");
 		return new String(resultBuff, Charset.defaultCharset());
