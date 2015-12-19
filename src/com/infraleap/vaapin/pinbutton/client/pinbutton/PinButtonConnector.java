@@ -1,23 +1,19 @@
 package com.infraleap.vaapin.pinbutton.client.pinbutton;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Widget;
-
-import com.vaadin.client.ui.AbstractComponentConnector;
-import com.vaadin.shared.ui.Connect;
-
-import com.infraleap.vaapin.pinbutton.PinButton;
-import com.infraleap.vaapin.pinbutton.client.pinbutton.PinButtonWidget;
-import com.infraleap.vaapin.pinbutton.client.pinbutton.PinButtonServerRpc;
-import com.vaadin.client.communication.RpcProxy;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.vaadin.shared.MouseEventDetails;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Widget;
+import com.infraleap.vaapin.pinbutton.PinButton;
 import com.vaadin.client.MouseEventDetailsBuilder;
-import com.infraleap.vaapin.pinbutton.client.pinbutton.PinButtonClientRpc;
-import com.infraleap.vaapin.pinbutton.client.pinbutton.PinButtonState;
+import com.vaadin.client.communication.RpcProxy;
 import com.vaadin.client.communication.StateChangeEvent;
+import com.vaadin.client.ui.AbstractComponentConnector;
+import com.vaadin.shared.MouseEventDetails;
+import com.vaadin.shared.ui.Connect;
 
 @Connect(PinButton.class)
 public class PinButtonConnector extends AbstractComponentConnector {
@@ -27,6 +23,7 @@ public class PinButtonConnector extends AbstractComponentConnector {
 	
 	public PinButtonConnector() {
 		registerRpc(PinButtonClientRpc.class, new PinButtonClientRpc() {
+			@Override
 			public void alert(String message) {
 				// TODO Do something useful
 				Window.alert(message);
@@ -35,6 +32,7 @@ public class PinButtonConnector extends AbstractComponentConnector {
 
 		// TODO ServerRpc usage example, do something useful instead
 		getWidget().addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				final MouseEventDetails mouseDetails = MouseEventDetailsBuilder
 					.buildMouseEventDetails(event.getNativeEvent(),
@@ -43,6 +41,13 @@ public class PinButtonConnector extends AbstractComponentConnector {
 			}
 		});
 
+		getWidget().addMouseUpHandler(new MouseUpHandler() {
+			@Override
+			public void onMouseUp(MouseUpEvent event) {
+				rpc.mouseUp(event.getNativeButton());
+			}
+		});
+		
 	}
 
 	@Override

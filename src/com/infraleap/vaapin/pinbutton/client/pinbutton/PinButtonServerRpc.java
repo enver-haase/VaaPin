@@ -8,4 +8,5 @@ public interface PinButtonServerRpc extends ServerRpc {
 	// TODO example API
 	public void clicked(MouseEventDetails mouseDetails);
 
+	public void mouseUp(int button);
 }
