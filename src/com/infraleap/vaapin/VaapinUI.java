@@ -11,8 +11,8 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
 @Theme("vaapin")
@@ -21,7 +21,7 @@ public class VaapinUI extends UI implements DetachListener{
 	private TelnetConnection telnetConn;
 
 	@WebServlet(value = "/*", asyncSupported = true)
-	@VaadinServletConfiguration(productionMode = false, ui = VaapinUI.class)
+	@VaadinServletConfiguration(productionMode = false, ui = VaapinUI.class, widgetset = "com.infraleap.vaapin.pinbutton.VaapinWidgetset")
 	public static class Servlet extends VaadinServlet {
 	}
 
@@ -36,26 +36,33 @@ public class VaapinUI extends UI implements DetachListener{
 		System.out.println("VaaPin initializing.");
 		this.telnetConn = new TelnetConnection();
 
-		final VerticalLayout layout = new VerticalLayout();
-		layout.setSizeFull();
-
 		PinConsole pinCon = new PinConsole(this.telnetConn);
 		pinCon.setSizeFull();
 
 		GameScreen gameScreen = new GameScreen();
-		gameScreen.setSizeFull();
+		gameScreen.setSizeUndefined();
+		gameScreen.setWidth("100%");
 		
 		TabSheet tabsheet = new TabSheet();
+		tabsheet.setSizeFull();
 		
 		tabsheet.addTab(pinCon, "Pinball 2000 Console", FontAwesome.KEYBOARD_O);
 		tabsheet.addTab(gameScreen, "Game Screen", FontAwesome.GAMEPAD);
 		
-		tabsheet.setSizeFull();
+		TabSheet.SelectedTabChangeListener l = new TabSheet.SelectedTabChangeListener() {
+			@Override
+			public void selectedTabChange(SelectedTabChangeEvent event) {
+				if (tabsheet.getSelectedTab() == pinCon)
+				{
+					pinCon.focus();
+				}
+			}
+		};
+		tabsheet.addSelectedTabChangeListener(l);
 		
-		layout.addComponent(tabsheet);	
-		this.setContent(layout);
+		this.setContent(tabsheet);
 
-		pinCon.focus();
+		tabsheet.setSelectedTab(gameScreen);
 	}
 
 
