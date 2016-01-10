@@ -41,11 +41,11 @@ public class VaapinUI extends UI implements DetachListener{
 		pinCon.setSizeFull();
 
 		GameScreen gameScreen = new GameScreen(this.telnetConn);
-		gameScreen.setSizeUndefined();
-		gameScreen.setWidth("100%");
+		gameScreen.setSizeFull();
 		
 		TabSheet tabsheet = new TabSheet();
 		tabsheet.setSizeFull();
+		
 		
 		tabsheet.addTab(pinCon, "Pinball 2000 Console", FontAwesome.KEYBOARD_O);
 		tabsheet.addTab(gameScreen, "Game Screen", FontAwesome.GAMEPAD);

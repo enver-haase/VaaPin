@@ -29,8 +29,14 @@ public class TelnetConnection {
 		return "<Communication error>";
 	}
 
-	private static void writeStringToSocket(String command, Socket sock) throws IOException {
-		sock.getOutputStream().write(command.getBytes(Charset.defaultCharset()));
+	private void writeStringToSocket(String command, Socket sock) throws IOException {
+		try{
+			sock.getOutputStream().write(command.getBytes(Charset.defaultCharset()));
+		}
+		catch (IOException e){
+			login();
+			sock.getOutputStream().write(command.getBytes(Charset.defaultCharset()));
+		}
 	}
 
 	private static String readStringFromSocket(Socket sock) throws IOException {

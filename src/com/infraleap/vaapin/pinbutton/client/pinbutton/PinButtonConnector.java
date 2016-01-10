@@ -16,11 +16,20 @@ import com.vaadin.shared.ui.Connect;
 @Connect(PinButton.class)
 public class PinButtonConnector extends AbstractComponentConnector {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	PinButtonServerRpc rpc = RpcProxy
 			.create(PinButtonServerRpc.class, this);
 	
 	public PinButtonConnector() {
 		registerRpc(PinButtonClientRpc.class, new PinButtonClientRpc() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void alert(String message) {
 				// TODO Do something useful

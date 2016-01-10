@@ -18,4 +18,9 @@ public interface Configuration {
     public final static String TELNET_LEFT_FLIPPER_DOWN = "flip off 0";
     public final static String TELNET_RIGHT_FLIPPER_UP = "flip on 1";
     public final static String TELNET_RIGHT_FLIPPER_DOWN = "flip off 1";
+    
+    public final static String TELNET_REBOOT = "reboot";
+    public final static String TELNET_GAME_START = "game start";
+    public final static String TELNET_GAME_TILT = "game tilt";
+    public final static String TELNET_SCENEMGR_START_2 = "scenemgr start 2";
 }

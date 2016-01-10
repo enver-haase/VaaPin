@@ -27,6 +27,11 @@ public class PinButton extends com.vaadin.ui.AbstractComponent {
 	
 	private final PinButtonServerRpc rpc = new PinButtonServerRpc() {
 		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		@Override
 		public void mouseUp(int button) {
 			Logger.logDebug("Mouse up. Button '"+button+"'.");
