@@ -26,7 +26,7 @@ public class PinConsole extends VerticalLayout {
 		Label l1 = new Label("VaaPin: Reindeer Goes Pinball.");
 		l1.addStyleName("header1");
 		this.addComponent(l1);
-		Label l2 = new Label("Copyright ©2014-2015 Vaadin Oy.");
+		Label l2 = new Label("Copyright ©2014-2016 Vaadin Oy.");
 		l2.addStyleName("header2");
 		this.addComponent(l2);
 
