@@ -1,16 +1,75 @@
 
 Notes for project VaaPin
-------------------------
+========================
 
 EPHEMERAL TCP/IP PORTS:
-Pinball 2000 machines hava a problem when communicating
-with TCP boards with a high number.
-Therefore, the machines communicating with them need to
-use a ephemeral port range of up to TODO only.
+-----------------------
+
+Pinball 2000 machines have a problem when communicating
+with machines using TCP ports with a high number. Using
+such a high-number TCP port when connecting as a client
+is the norm for any modern TCP/IP implementation, such
+as the ones on OSX, Windows or Linux.
+
+The computers communicating with Pinball 2000 need to use
+a low-numbered ephemeral port range.
 Under Linux, this is achieved using
- echo "49152 65535" > /proc/sys/net/ipv4/ip_local_port_range 
+ echo "2048 4095" > /proc/sys/net/ipv4/ip_local_port_range 
 Note that you need to do this each time the system boots,
 so be sure to add a line to a system startup script such
 as /etc/rc.local so your range is always used.
 Other machines must communicate through a gateway which
 enforces this workaround.
+Under Linux,
+ /usr/bin/ncat -l -p 9999  -c "/bin/nc rfm.hacenet 23" &
+ /usr/bin/ncat -l -p 10000 -c "/bin/nc rfm.hacenet 80" &
+can be added to said rc.local -- this creates a server
+socket on port 9999 on the Linux machine, forwarding any
+incoming requests on port 9999 to telnet port 23 on the
+pinball machine. This is the remote maintenance / debug
+interface.
+Similarly, incoming requests on port 10000 are forwarded
+to port 80 on the pinball machine - this is the rudimentary
+Pinball 2000 web-server, which serves the Pinball 2000 logo,
+the game's name and location, an access counter and the high
+scores list.
+Note that /usr/bin/ncat is from http://nmap.org/ncat while
+/bin/nc is from the netcat-openbsd package. There might or
+not be away to achieve the same effect with only one of the
+two programs.
+
+
+THE CAMERA
+----------
+Many cameras use the RTSP protocol to support dropping frames
+more easily. However, this does not work well with most HTML5
+compatible browsers without resorting to plug-ins.
+Therefore, I chose a TENVIS JPT3815W webcam. The camera's web
+interface is on TCP port 7777, but if you append
+'/videostream.cgi?user=admin&pwd=admin' to the webcam's URL,
+then you can see the video stream itself. Of course, the user
+name and password encoded in the URL refer to an unaltered
+standard password; so if you changed your webcam's password,
+adapt the URL appendix above.
+You may want to use the camera's standard web interface to
+control the camera tilt and adapt its resolution to match your
+network upstream bandwidth.
+
+
+COMPILING AND DEPLOYMENT
+------------------------
+Use a recent Eclipse, i.e. Mars with a recent Vaadin plugin
+from the Eclipse marketplace. Export WAR file.
+I tested this under a Tomcat8 installation on a Ubuntu 15.10
+machine, deploying the *.war using the admin application
+provided by the Ubuntu 'tomcat8-admin' package.
+
+
+CONFIGURATION
+-------------
+All configuration is hard-coded in the Configuration.java file.
+
+
+QUESTIONS?
+----------
+Contact me at Enver Haase <enver@vaadin.com>.
