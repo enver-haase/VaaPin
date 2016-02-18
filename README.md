@@ -1,6 +1,8 @@
 
 VaaPin - Reindeer goes pinball.
+===============================
 by Enver Haase, (c) 2014-2016 Vaadin Oy
+---------------------------------------
 
 The aim of this software is to allow remote maintenance
 and even play of a pinball machine through a Vaadin user
